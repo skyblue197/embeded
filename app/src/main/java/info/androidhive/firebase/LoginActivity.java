@@ -19,10 +19,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword;
+    private EditText inputEmail, inputPassword,inputID;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,39 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        intent = new Intent(this,LoginBgmService.class);
+        stopService(intent);
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        intent = new Intent(this,LoginBgmService.class);
+        stopService(intent);
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        intent = new Intent(this,LoginBgmService.class);
+        startService(intent);
+        super.onStart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        intent = new Intent(this,LoginBgmService.class);
+        stopService(intent);
+        super.onBackPressed();
     }
 }
 

@@ -21,8 +21,8 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ArrayAdapter adapter;
-    String room_name;
     String temp_key;
+    String temp_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,16 +32,18 @@ public class ChatActivity extends AppCompatActivity {
 
         listView = (ListView)findViewById(R.id.listView);
         editText = (EditText)findViewById(R.id.editText);
+
         temp_key = getIntent().getExtras().get("room_key").toString();
+//        temp_id = getIntent().getExtras().get("room_id").toString();
+
         firebaseDatabase = FirebaseDatabase.getInstance();
-//        room_name = getIntent().getExtras().get("room_Name").toString();
-        databaseReference = firebaseDatabase.getReference().child(temp_key);
-        //databaseReference = firebaseDatabase.getReference();
+
+        databaseReference = firebaseDatabase.getReference().getRoot().child("room").child(temp_key);
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
                 android.R.id.text1);
 
-        databaseReference.child("room").child(temp_key).child("message").addChildEventListener(new ChildEventListener() {
+        databaseReference.child("message").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ChatData chatData = dataSnapshot.getValue(ChatData.class);
@@ -76,10 +78,9 @@ public class ChatActivity extends AppCompatActivity {
 
     public void pressSendButton(View view)
     {
-//        DatabaseReference message_root = databaseReference.child(temp_key);
         String userName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         ChatData chatData = new ChatData(userName, editText.getText().toString());
-        databaseReference.child("room").child(temp_key).child("message").push().setValue(chatData);
+        databaseReference.child("message").push().setValue(chatData);
         editText.setText("");
     }
 
