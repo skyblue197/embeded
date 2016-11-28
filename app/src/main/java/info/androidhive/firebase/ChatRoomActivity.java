@@ -590,13 +590,16 @@ public class ChatRoomActivity extends AppCompatActivity {
             adapter2.notifyDataSetChanged();
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         adapter.clear();
         adapter.notifyDataSetChanged();
     }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//    }
 
     @Override
     protected void onPause() {
