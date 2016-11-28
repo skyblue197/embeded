@@ -46,7 +46,7 @@
         <service
             android:name=".ChatRoomBgmService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"></service>
     </application>
 
 </manifest>
