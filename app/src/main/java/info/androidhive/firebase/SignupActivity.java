@@ -27,12 +27,13 @@ public class SignupActivity extends AppCompatActivity {
     private SQLiteDatabase mDB;
     Cursor mCursor;
 
-    private EditText inputEmail, inputPassword,inputID;
+    private EditText inputEmail, inputPassword, inputID;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private String text="";
     public static int key;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,59 +130,61 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                int p=0;
                 try{
                     mDB = openOrCreateDatabase("myDB.db", 0, null);
                     mCursor = mDB.rawQuery("SELECT sid FROM " + "my_table", null);
                     if (mCursor.moveToFirst()) {
-                        int k=0;
-                        int p=0;
+                        int k = 0;
                         do {
-                            if(p!=0)
+                            if (p != 0)
                                 break;
-                            for (int j = 0; j < mCursor.getColumnCount(); j++) {
-                                if (id.equals(mCursor.getString(j))) {
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    //create user
-                                    ContentValues u = new ContentValues();
-                                    u.put("empty",1);
-                                    mDB.update("my_table",u,"sid="+mCursor.getString(j),null);
-                                    auth.createUserWithEmailAndPassword(email, password)
-                                            .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                                    progressBar.setVisibility(View.GONE);
-                                                    // If sign in fails, display a message to the user. If sign in succeeds
-                                                    // the auth state listener will be notified and logic to handle the
-                                                    // signed in user can be handled in the listener.
-                                                    if (!task.isSuccessful()) {
-                                                        Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
-                                                                Toast.LENGTH_SHORT).show();
-                                                    } else {
-                                                        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                                                        intent.putExtra("send_empty",key);
-                                                        startActivity(intent);
-                                                        finish();
-                                                    }
+                            if (id.equals(mCursor.getString(k))) {
+                                progressBar.setVisibility(View.VISIBLE);
+                                //create user
+                                ContentValues u = new ContentValues();
+                                u.put("empty", 1);
+                                mDB.update("my_table", u, "sid=" + mCursor.getString(k), null);
+                                auth.createUserWithEmailAndPassword(email, password)
+                                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
+                                                // If sign in fails, display a message to the user. If sign in succeeds
+                                                // the auth state listener will be notified and logic to handle the
+                                                // signed in user can be handled in the listener.
+                                                if (!task.isSuccessful()) {
+                                                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                                                    intent.putExtra("send_empty", key);
+                                                    startActivity(intent);
+                                                    finish();
                                                 }
-                                            });
-                                    p++;
-                                    break;
+                                            }
+                                        });
+                                p++;
+                                break;
 
-                                }
-                                else{
-                                    if(mCursor.getInt(j)!=0&&k==0) {
-                                        Toast.makeText(SignupActivity.this, "Not Exist Id!!!",
-                                                Toast.LENGTH_SHORT).show();
-                                        k++;
-                                        //return;
-                                    }
-                                }
                             }
+//                                else{
+//                                    if(mCursor.getInt(j)!=0&&k==0) {
+//                                        Toast.makeText(SignupActivity.this, "Not Exist Id!!!",
+//                                                Toast.LENGTH_SHORT).show();
+//                                        k++;
+//                                        //return;
+//                                    }
+//                                }
                         } while (mCursor.moveToNext());
+                        if (p == 0) {
+                            Toast.makeText(SignupActivity.this, "Not Exist Id!!!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }catch(Exception e){}
-
             }
         });
     }

@@ -15,13 +15,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
-            btnReturnChatRoom,changeEmail, changePassword, sendEmail, remove, signOut;
+    private Button btnChangeEmail, btnChangeUserName, btnChangePassword, btnSendResetEmail, btnRemoveUser,
+            btnReturnChatRoom,changeEmail, changeUserName, changePassword, sendEmail, remove, signOut;
 
-    private EditText oldEmail, newEmail, password, newPassword;
+    private EditText oldEmail, newEmail, password, newPassword, userName;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -55,11 +56,13 @@ public class MainActivity extends AppCompatActivity {
         };
 
         btnChangeEmail = (Button) findViewById(R.id.change_email_button);
+        btnChangeUserName = (Button) findViewById(R.id.change_userName_button);
         btnChangePassword = (Button) findViewById(R.id.change_password_button);
         btnSendResetEmail = (Button) findViewById(R.id.sending_pass_reset_button);
         btnRemoveUser = (Button) findViewById(R.id.remove_user_button);
         btnReturnChatRoom = (Button) findViewById(R.id.return_chatroom_button);
         changeEmail = (Button) findViewById(R.id.changeEmail);
+        changeUserName = (Button) findViewById(R.id.changeUserName);
         changePassword = (Button) findViewById(R.id.changePass);
         sendEmail = (Button) findViewById(R.id.send);
         remove = (Button) findViewById(R.id.remove);
@@ -67,14 +70,17 @@ public class MainActivity extends AppCompatActivity {
 
         oldEmail = (EditText) findViewById(R.id.old_email);
         newEmail = (EditText) findViewById(R.id.new_email);
+        userName = (EditText) findViewById(R.id.userName);
         password = (EditText) findViewById(R.id.password);
         newPassword = (EditText) findViewById(R.id.newPassword);
 
         oldEmail.setVisibility(View.GONE);
         newEmail.setVisibility(View.GONE);
+        userName.setVisibility(View.GONE);
         password.setVisibility(View.GONE);
         newPassword.setVisibility(View.GONE);
         changeEmail.setVisibility(View.GONE);
+        changeUserName.setVisibility(View.GONE);
         changePassword.setVisibility(View.GONE);
         sendEmail.setVisibility(View.GONE);
         remove.setVisibility(View.GONE);
@@ -90,9 +96,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 oldEmail.setVisibility(View.GONE);
                 newEmail.setVisibility(View.VISIBLE);
+                userName.setVisibility(View.GONE);
                 password.setVisibility(View.GONE);
                 newPassword.setVisibility(View.GONE);
                 changeEmail.setVisibility(View.VISIBLE);
+                changeUserName.setVisibility(View.GONE);
                 changePassword.setVisibility(View.GONE);
                 sendEmail.setVisibility(View.GONE);
                 remove.setVisibility(View.GONE);
@@ -125,14 +133,62 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnChangeUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                oldEmail.setVisibility(View.GONE);
+                newEmail.setVisibility(View.GONE);
+                userName.setVisibility(View.VISIBLE);
+                password.setVisibility(View.GONE);
+                newPassword.setVisibility(View.GONE);
+                changeEmail.setVisibility(View.GONE);
+                changeUserName.setVisibility(View.VISIBLE);
+                changePassword.setVisibility(View.GONE);
+                sendEmail.setVisibility(View.GONE);
+                remove.setVisibility(View.GONE);
+            }
+        });
+
+        changeUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                String name = userName.getText().toString().trim();
+                if (user != null && !name.equals("")) {
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(name)
+                            .build();
+                    user.updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(MainActivity.this, "User profile updated",
+                                                Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "Failed to update profile!", Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                }
+                            });
+                } else if (userName.getText().toString().trim().equals("")) {
+                    userName.setError("Enter userName");
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 oldEmail.setVisibility(View.GONE);
                 newEmail.setVisibility(View.GONE);
+                userName.setVisibility(View.GONE);
                 password.setVisibility(View.GONE);
                 newPassword.setVisibility(View.VISIBLE);
                 changeEmail.setVisibility(View.GONE);
+                changeUserName.setVisibility(View.GONE);
                 changePassword.setVisibility(View.VISIBLE);
                 sendEmail.setVisibility(View.GONE);
                 remove.setVisibility(View.GONE);
@@ -175,9 +231,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 oldEmail.setVisibility(View.VISIBLE);
                 newEmail.setVisibility(View.GONE);
+                userName.setVisibility(View.GONE);
                 password.setVisibility(View.GONE);
                 newPassword.setVisibility(View.GONE);
                 changeEmail.setVisibility(View.GONE);
+                changeUserName.setVisibility(View.GONE);
                 changePassword.setVisibility(View.GONE);
                 sendEmail.setVisibility(View.VISIBLE);
                 remove.setVisibility(View.GONE);

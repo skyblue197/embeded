@@ -117,7 +117,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void pressSendButton(View view)
     {
-        String userName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         ChatData chatData = new ChatData(userName, editText.getText().toString(), currentDateTimeString );
         databaseReference.child("message").push().setValue(chatData);
