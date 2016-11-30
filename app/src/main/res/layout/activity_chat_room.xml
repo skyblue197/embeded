@@ -26,6 +26,13 @@
             android:entries="@array/department_array">
         </Spinner>
 
+        <Button
+            android:id="@+id/userButton"
+            android:text="user"
+            android:onClick="pressUserButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <LinearLayout
