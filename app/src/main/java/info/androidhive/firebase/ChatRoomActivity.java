@@ -28,8 +28,11 @@ public class ChatRoomActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ArrayAdapter adapter;
+    ArrayAdapter user_list_adapter;
     final static ArrayList<String> items = new ArrayList<String>();
     Dialog dialog;
+    Dialog userDialog;
+    ListView userDialoglistView;
     Button roomButton;
     Spinner spinner1;
     Spinner spinner2;
@@ -37,7 +40,7 @@ public class ChatRoomActivity extends AppCompatActivity {
     Spinner Majorspinner;
     Intent intent;
 
-    String roomKey;
+    String roomUserKey;
     String roomName;
     String message;
 
@@ -46,11 +49,14 @@ public class ChatRoomActivity extends AppCompatActivity {
     ArrayAdapter adapter1;
     ArrayAdapter adapter2;
 
+    UserData userData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
+        user_list_adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
 
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         adapter1 = ArrayAdapter.createFromResource(
@@ -72,6 +78,12 @@ public class ChatRoomActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.activity_addroom);
         dialog.setTitle("Create Room");
 
+        userDialog = new Dialog(this);
+        userDialog.setContentView(R.layout.activity_user_list);
+        userDialog.setTitle("User");
+
+        userDialoglistView = (ListView) userDialog.findViewById(R.id.user_list_listView);
+
         roomButton = (Button) dialog.findViewById(R.id.makeButton);
         roomeditText = (EditText) dialog.findViewById(R.id.roomeditText);
         Contentspinner = (Spinner) dialog.findViewById(R.id.MySpinner1);
@@ -92,104 +104,6 @@ public class ChatRoomActivity extends AppCompatActivity {
                     adapter.add(chatRoomData.getRoomName() + "   (" + chatRoomData.getContents() + ", " + chatRoomData.getMajor() + ")");
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
-
-
-//                    spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                        @Override
-//                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                            if (adapterView.getSelectedItem().equals(("Contents"))) {
-//                                listView.setAdapter(adapter);
-//                            } else if (adapterView.getSelectedItem().equals(("축구"))) {
-//                                for (int j = 0; j < listView.getCount(); j++) {
-//                                    if (listView.getItemAtPosition(j).toString().contains("축구")) {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-//                                    } else {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-//                                    }
-//                                }
-//                            } else if (adapterView.getSelectedItem().equals(("농구"))) {
-//                                listView.setBackgroundColor(Color.WHITE);
-//                                for (int j = 0; j < listView.getCount(); j++) {
-//                                    if (listView.getItemAtPosition(j).toString().contains("농구")) {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-//                                    } else {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-//                                    }
-//                                }
-//                            } else if (adapterView.getSelectedItem().equals(("야구"))) {
-//                                for (int j = 0; j < listView.getCount(); j++) {
-//                                    if (listView.getItemAtPosition(j).toString().contains("야구")) {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-//                                    } else {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-//                                    }
-//                                }
-//                            } else if (adapterView.getSelectedItem().equals(("배구"))) {
-//                                for (int j = 0; j < listView.getCount(); j++) {
-//                                    if (listView.getItemAtPosition(j).toString().contains("배구")) {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-//                                    } else {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//                        }
-//                    });
-//
-//                    spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                        @Override
-//                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                            if (adapterView.getSelectedItem().equals(("major"))) {
-//                                listView.setAdapter(adapter);
-//                            } else if (adapterView.getSelectedItem().equals(("컴공"))) {
-//                                for (int j = 0; j < listView.getCount(); j++) {
-//                                    if (listView.getItemAtPosition(j).toString().contains("컴공")) {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-//                                    } else {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-//                                    }
-//                                }
-//                            } else if (adapterView.getSelectedItem().equals(("화공"))) {
-//                                listView.setBackgroundColor(Color.WHITE);
-//                                for (int j = 0; j < listView.getCount(); j++) {
-//                                    if (listView.getItemAtPosition(j).toString().contains("화공")) {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-//                                    } else {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-//                                    }
-//                                }
-//                            } else if (adapterView.getSelectedItem().equals(("기계"))) {
-//                                for (int j = 0; j < listView.getCount(); j++) {
-//                                    if (listView.getItemAtPosition(j).toString().contains("기계")) {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-//                                    } else {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-//                                    }
-//                                }
-//                            } else if (adapterView.getSelectedItem().equals(("체육"))) {
-//                                for (int j = 0; j < listView.getCount(); j++) {
-//                                    if (listView.getItemAtPosition(j).toString().contains("체육")) {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-//                                    } else {
-//                                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//                        }
-//                    });
-
-
-
                 }
             }
 
@@ -212,6 +126,50 @@ public class ChatRoomActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void pressUserDialogBackButton(View view)
+    {
+        userDialog.dismiss();
+    }
+
+    public void pressUserButton(View view)
+    {
+        userDialog.show();
+
+        databaseReference.child("user").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                userData = dataSnapshot.getValue(UserData.class);
+                if(dataSnapshot.exists())
+                {
+                    user_list_adapter.add(userData.getUserName());
+                    user_list_adapter.notifyDataSetChanged();
+                    userDialoglistView.setAdapter(user_list_adapter);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
 
     public void pressmakeRoom(View view)
@@ -244,11 +202,11 @@ public class ChatRoomActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ChatActivity.class);
                 intent.putExtra("room_key", childKeys.get(checked));
                 startActivity(intent);
-
                 adapter.notifyDataSetChanged();
             }
         }
     }
+
 
     public void pressDeleteButton(View view)
     {
@@ -590,16 +548,15 @@ public class ChatRoomActivity extends AppCompatActivity {
             adapter2.notifyDataSetChanged();
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         adapter.clear();
         adapter.notifyDataSetChanged();
+        user_list_adapter.clear();
+        user_list_adapter.notifyDataSetChanged();
     }
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//    }
 
     @Override
     protected void onPause() {

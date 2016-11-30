@@ -5,14 +5,33 @@ public class ChatData
 {
     private String userName;
     private String message;
+    private String filepath;
     private String time;
+
     public ChatData() { }
 
-    public ChatData(String userName, String message,String time)
+
+
+    public ChatData(String userName, String message, String time)
     {
         this.userName = userName;
         this.message = message;
         this.time = time;
+    }
+
+    public ChatData(String filepath)
+    {
+        this.filepath = filepath;
+    }
+
+    public void setFilepath(String filepath)
+    {
+        this.filepath = filepath;
+    }
+
+    public String getFilepath()
+    {
+        return filepath;
     }
 
     public String getUserName()
@@ -35,7 +54,10 @@ public class ChatData
         this.message = message;
     }
 
-    public String getTime(){ return time; }
+    public void setTime(String time) {this.time = time;}
 
-    public void setTime(String time){this.time = time;}
+    public String getTime()
+    {
+        return time;
+    }
 }
