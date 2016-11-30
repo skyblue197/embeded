@@ -118,17 +118,32 @@ public class ChatActivity extends AppCompatActivity {
     public void pressSendButton(View view)
     {
         String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        ChatData chatData = new ChatData(userName, editText.getText().toString(), currentDateTimeString );
-        databaseReference.child("message").push().setValue(chatData);
-        editText.setText("");
+        if (userName == null) {
+            String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+            ChatData chatData = new ChatData(email, editText.getText().toString(), currentDateTimeString );
+            databaseReference.child("message").push().setValue(chatData);
+            editText.setText("");
 
-        listView.post(new Runnable() {
-            @Override
-            public void run() {
-                listView.setSelection(adapter.getCount()-1);
-            }
-        });
+            listView.post(new Runnable() {
+                @Override
+                public void run() {
+                    listView.setSelection(adapter.getCount()-1);
+                }
+            });
+        } else {
+            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+            ChatData chatData = new ChatData(userName, editText.getText().toString(), currentDateTimeString );
+            databaseReference.child("message").push().setValue(chatData);
+            editText.setText("");
+
+            listView.post(new Runnable() {
+                @Override
+                public void run() {
+                    listView.setSelection(adapter.getCount()-1);
+                }
+            });
+        }
     }
 
 }
