@@ -29,7 +29,7 @@ public class SignupActivity extends AppCompatActivity {
     private SQLiteDatabase mDB;
     Cursor mCursor;
 
-    private EditText inputEmail, inputPassword,inputID, inputName;
+    private EditText inputEmail, inputPassword,inputID;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -96,7 +96,6 @@ public class SignupActivity extends AppCompatActivity {
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         inputID = (EditText)findViewById(R.id.ID);
-        inputName = (EditText)findViewById(R.id.name);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
 
@@ -119,7 +118,6 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 email = inputEmail.getText().toString().trim();
-                name = inputName.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
                 String id = inputID.getText().toString().trim();
 
@@ -136,11 +134,6 @@ public class SignupActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(id)) {
                     Toast.makeText(getApplicationContext(), "Enter id!", Toast.LENGTH_SHORT).show();
                     return;
-                }
-
-                if(TextUtils.isEmpty(name))
-                {
-                    Toast.makeText(getApplicationContext(), "Enter name!", Toast.LENGTH_SHORT).show();
                 }
 
                 if (password.length() < 6) {

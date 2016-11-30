@@ -81,6 +81,8 @@ public class ChatRoomActivity extends AppCompatActivity {
         userDialog = new Dialog(this);
         userDialog.setContentView(R.layout.activity_user_list);
         userDialog.setTitle("User");
+        userDialog.setCanceledOnTouchOutside(false);
+        userDialog.setCancelable(false);
 
         userDialoglistView = (ListView) userDialog.findViewById(R.id.user_list_listView);
 
@@ -130,6 +132,8 @@ public class ChatRoomActivity extends AppCompatActivity {
     public void pressUserDialogBackButton(View view)
     {
         userDialog.dismiss();
+        user_list_adapter.clear();
+        user_list_adapter.notifyDataSetChanged();
     }
 
     public void pressUserButton(View view)
@@ -150,7 +154,6 @@ public class ChatRoomActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
@@ -169,8 +172,6 @@ public class ChatRoomActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     public void pressmakeRoom(View view)
     {
