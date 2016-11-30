@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,18 +29,26 @@ public class SignupActivity extends AppCompatActivity {
     private SQLiteDatabase mDB;
     Cursor mCursor;
 
-    private EditText inputEmail, inputPassword, inputID;
+    private EditText inputEmail, inputPassword,inputID, inputName;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private String text="";
     public static int key;
 
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
+    public static String email;
+    public static String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().getRoot();
 
         mDB = openOrCreateDatabase("myDB.db", MODE_PRIVATE, null);
 
@@ -86,6 +96,7 @@ public class SignupActivity extends AppCompatActivity {
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         inputID = (EditText)findViewById(R.id.ID);
+        inputName = (EditText)findViewById(R.id.name);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
 
@@ -107,7 +118,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
+                email = inputEmail.getText().toString().trim();
+                name = inputName.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
                 String id = inputID.getText().toString().trim();
 
@@ -126,11 +138,15 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
+                if(TextUtils.isEmpty(name))
+                {
+                    Toast.makeText(getApplicationContext(), "Enter name!", Toast.LENGTH_SHORT).show();
+                }
+
                 if (password.length() < 6) {
                     Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 int p=0;
                 try{
                     mDB = openOrCreateDatabase("myDB.db", 0, null);
@@ -140,6 +156,8 @@ public class SignupActivity extends AppCompatActivity {
                         do {
                             if (p != 0)
                                 break;
+
+                            //        for (int j = 0; j < mCursor.getColumnCount(); j++) {
                             if (id.equals(mCursor.getString(k))) {
                                 progressBar.setVisibility(View.VISIBLE);
                                 //create user
@@ -159,8 +177,15 @@ public class SignupActivity extends AppCompatActivity {
                                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                                             Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                                                    Intent intent = new Intent(SignupActivity.this, ChatRoomActivity.class);
                                                     intent.putExtra("send_empty", key);
+
+                                                    String userName = email;
+//                                                    String userName = name;
+                                                    UserData username = new UserData(userName);
+                                                    databaseReference.child("user").push().setValue(username);
+
+
                                                     startActivity(intent);
                                                     finish();
                                                 }
@@ -178,6 +203,7 @@ public class SignupActivity extends AppCompatActivity {
 //                                        //return;
 //                                    }
 //                                }
+
                         } while (mCursor.moveToNext());
                         if (p == 0) {
                             Toast.makeText(SignupActivity.this, "Not Exist Id!!!",
@@ -185,6 +211,7 @@ public class SignupActivity extends AppCompatActivity {
                         }
                     }
                 }catch(Exception e){}
+
             }
         });
     }
