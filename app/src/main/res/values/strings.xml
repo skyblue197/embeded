@@ -1,4 +1,5 @@
 <resources>
+    <item name="darkorange" type="color">#FFFF8800</item>
     <string name="contents">Choose a contents</string>
 
     <string name="app_name">Firebase Auth</string>
@@ -35,35 +36,36 @@
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
 
     <string-array name="contents_array">
-        <item>Contents</item>
-        <item>축구</item>
-        <item>농구</item>
-        <item>야구</item>
-        <item>배구</item>
+        <item>기타</item>
+        <item>영화</item>
+        <item>경기관람</item>
+        <item>공연</item>
+        <item>운동</item>
+        <item>스터디</item>
     </string-array>
 
     <string-array name="department_array">
-        <item>major</item>
+        <item>기타</item>
         <item>컴공</item>
-        <item>화공</item>
-        <item>기계</item>
-        <item>체육</item>
+        <item>정통</item>
+        <item>교통</item>
+        <item>뮤지컬</item>
     </string-array>
 
-    <string-array name="roomcontents_array">
-        <item>Contents</item>
-        <item>축구</item>
-        <item>농구</item>
-        <item>야구</item>
-        <item>배구</item>
+    <string-array name="time_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
     </string-array>
-
-    <string-array name="roomdepartment_array">
-        <item>major</item>
-        <item>컴공</item>
-        <item>화공</item>
-        <item>기계</item>
-        <item>체육</item>
-    </string-array>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
