@@ -200,6 +200,27 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/go_squareroom_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="go to squreroom"
+            android:textStyle="bold" />
+
+        <Button
+            android:text="NAVER to Search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button1"
+            android:onClick="pressButtonToSearch"/>
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/webview" />
+
+        <Button
             android:id="@+id/sign_out"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
@@ -211,5 +232,7 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>
