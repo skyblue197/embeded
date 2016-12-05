@@ -9,70 +9,66 @@
 
     <LinearLayout
         android:orientation="horizontal"
+        android:background="#ebe5cb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Spinner
             android:id="@+id/spinner1"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/contents_array">
+            android:entries="@array/contents_array"
+            android:background="#ebe5cb"
+            android:layout_width="120dp">
         </Spinner>
 
         <Spinner
             android:id="@+id/spinner2"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/department_array">
+            android:entries="@array/department_array"
+            android:background="#ebe5cb"
+            android:layout_width="120dp">
         </Spinner>
 
-        <Button
+        <ImageButton
             android:id="@+id/userButton"
-            android:text="user"
-            android:background="#000000"
-            android:textColor="#FFFFFF"
+            android:background="@drawable/users"
             android:onClick="pressUserButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#ebe5cb"
         android:orientation="horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="make room"
-            android:background="#D4F4FA"
-            android:onClick="pressmakeRoom"
-            android:id="@+id/button"/>
+        <ImageButton
+            android:id="@+id/button"
+            android:layout_width="90dp"
+            android:layout_height="36dp"
+            android:background="@drawable/plus"
+            android:onClick="pressmakeRoom"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+        <ImageButton
             android:id="@+id/delete"
-            android:text="delete"
-            android:background="#D4F4FA"
+            android:layout_width="90dp"
+            android:layout_height="36dp"
+            android:background="@drawable/delete"
             android:onClick="pressDeleteButton"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
+        <ImageButton
             android:id="@+id/enter"
-            android:text="enter"
-            android:background="#D4F4FA"
+            android:layout_width="90dp"
+            android:layout_height="36dp"
+            android:background="@drawable/enter"
             android:onClick="pressEnterButton"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="setting"
-            android:background="#D4F4FA"
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/setting"
             android:onClick="pressSettingButton"/>
 
     </LinearLayout>
@@ -80,6 +76,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#ebe5cb"
         android:orientation="horizontal">
 
         <TextView
@@ -90,25 +87,25 @@
             android:id="@+id/textView" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="228dp"
             android:layout_height="wrap_content"
             android:id="@+id/editText"
             android:padding="1dp"
             android:hint="ex) 명지대학교 자연캠퍼스" />
 
-        <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="위치 검색"
-        android:background="#CEFBC9"
-        android:onClick="pressMapButton" />
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search"
+            android:onClick="pressMapButton" />
 
     </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="308dp"
+        android:layout_height="wrap_content"
         android:id="@+id/listView"
+        android:background="#ebe5cb"
         android:choiceMode="singleChoice">
     </ListView>
 

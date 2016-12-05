@@ -13,18 +13,42 @@
     android:layout_width="match_parent"
     android:layout_height="114dp">
 
+
     <Spinner
         android:id="@+id/MySpinner1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/roomcontents_array"/>
+        android:entries="@array/contents_array"/>
 
     <Spinner
         android:id="@+id/MySpinner2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/roomdepartment_array"/>
+        android:entries="@array/department_array"/>
+
+        <Spinner
+        android:id="@+id/MySpinner3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/time_array"/>
+
+        <Button
+        android:id="@+id/calenderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="pressCalenderButton"
+        android:text="calender"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"/>
+    <CalendarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendarView2"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/makeButton"

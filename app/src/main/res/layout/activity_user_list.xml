@@ -6,6 +6,7 @@
     <ListView
         android:id="@+id/user_list_listView"
         android:layout_width="match_parent"
+        android:background="#ebe5cb"
         android:layout_height="400dp">
     </ListView>
 

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="info.androidhive.firebase.ChatActivity"
+    android:background="#ebe5cb"
     android:weightSum="1">
 
     <LinearLayout
@@ -38,32 +39,39 @@
         android:layout_height="100dp"
         android:id="@+id/imageView"/>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+"
-            android:onClick="pressPlusButton"  />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:weightSum="1">
 
         <EditText
-            android:layout_width="282dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="139dp"
             android:layout_height="wrap_content"
             android:hint="Type your message"
             android:textSize="14sp"
             android:gravity="top"
             android:textColor="#555555"
             android:id="@+id/editText"
+            android:background="#ffffff"
             android:layout_alignBaseline="@+id/sendButton"
             android:layout_alignBottom="@+id/sendButton"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_weight="1.09" />
+
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/gallery"
+            android:onClick="pressPlusButton"
+            android:layout_alignBaseline="@+id/sendButton"
+            android:layout_alignBottom="@+id/sendButton" />
 
         <Button
             android:text="SEND"
+            android:textColor="#ffffff"
             android:id="@+id/sendButton"
+            android:background="#676767"
             android:onClick="pressSendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +79,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>
