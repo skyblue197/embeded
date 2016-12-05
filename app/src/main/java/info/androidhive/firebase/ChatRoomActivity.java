@@ -3,8 +3,13 @@ package info.androidhive.firebase;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,13 +18,20 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class ChatRoomActivity extends AppCompatActivity {
 
@@ -51,10 +63,31 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     UserData userData;
 
+    private GoogleApiClient client;
+
+    public void pressMapButton(View view) {
+        try {
+            EditText et = (EditText) findViewById(R.id.editText);
+            String s = et.getText().toString();
+
+            Intent intent2 = new Intent(this, MapsActivity.class);
+            Geocoder geo = new Geocoder(this, Locale.KOREAN);
+            List<Address> addr = geo.getFromLocationName(s, 2);
+            double latitude = addr.get(0).getLatitude();
+            double longitude = addr.get(0).getLongitude();
+            String la = String.valueOf(latitude);
+            String lo = String.valueOf(longitude);
+            intent2.putExtra("latitude", la);
+            intent2.putExtra("longitude", lo);
+            startActivity(intent2);
+        } catch (IOException e) { }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         user_list_adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
 
@@ -127,6 +160,35 @@ public class ChatRoomActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
     }
 
     public void pressUserDialogBackButton(View view)
@@ -248,8 +310,6 @@ public class ChatRoomActivity extends AppCompatActivity {
             {
 //                listView.setAdapter(adapter);
                 listView.setBackgroundColor(Color.WHITE);
-                adapter1.notifyDataSetChanged();
-                adapter2.notifyDataSetChanged();
             }
 
             else if(spinner1.getSelectedItem().equals("축구") && spinner2.getSelectedItem().equals("컴공"))
@@ -259,14 +319,11 @@ public class ChatRoomActivity extends AppCompatActivity {
                     if(listView.getItemAtPosition(j).toString().contains(("축구")) && listView.getItemAtPosition(j).toString().contains(("컴공")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
+
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
@@ -277,50 +334,38 @@ public class ChatRoomActivity extends AppCompatActivity {
                     if(listView.getItemAtPosition(j).toString().contains(("축구")) && listView.getItemAtPosition(j).toString().contains(("화공")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
-            else if(adapterView.getSelectedItem().equals("축구") && adapterView.getSelectedItem().equals("기계") )
+            else if(spinner1.getSelectedItem().equals("축구") && spinner2.getSelectedItem().equals("기계") )
             {
                 for(int j=0; j<listView.getCount(); j++)
                 {
                     if(listView.getItemAtPosition(j).toString().contains(("축구")) && listView.getItemAtPosition(j).toString().contains(("기계")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
-            else if(adapterView.getSelectedItem().equals("축구") && adapterView.getSelectedItem().equals("체육") )
+            else if(spinner1.getSelectedItem().equals("축구") && spinner2.getSelectedItem().equals("체육") )
             {
                 for(int j=0; j<listView.getCount(); j++)
                 {
                     if(listView.getItemAtPosition(j).toString().contains(("축구")) && listView.getItemAtPosition(j).toString().contains(("체육")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
@@ -331,14 +376,10 @@ public class ChatRoomActivity extends AppCompatActivity {
                     if(listView.getItemAtPosition(j).toString().contains(("농구")) && listView.getItemAtPosition(j).toString().contains(("컴공")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
@@ -349,50 +390,38 @@ public class ChatRoomActivity extends AppCompatActivity {
                     if(listView.getItemAtPosition(j).toString().contains(("농구")) && listView.getItemAtPosition(j).toString().contains(("화공")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
-            else if(adapterView.getSelectedItem().equals("농구") && adapterView.getSelectedItem().equals("기계") )
+            else if(spinner1.getSelectedItem().equals("농구") && spinner2.getSelectedItem().equals("기계") )
             {
                 for(int j=0; j<listView.getCount(); j++)
                 {
                     if(listView.getItemAtPosition(j).toString().contains(("농구")) && listView.getItemAtPosition(j).toString().contains(("기계")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
-            else if(adapterView.getSelectedItem().equals("농구") && adapterView.getSelectedItem().equals("체육") )
+            else if(spinner1.getSelectedItem().equals("농구") && spinner2.getSelectedItem().equals("체육") )
             {
                 for(int j=0; j<listView.getCount(); j++)
                 {
                     if(listView.getItemAtPosition(j).toString().contains(("농구")) && listView.getItemAtPosition(j).toString().contains(("체육")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
@@ -403,14 +432,10 @@ public class ChatRoomActivity extends AppCompatActivity {
                     if(listView.getItemAtPosition(j).toString().contains(("야구")) && listView.getItemAtPosition(j).toString().contains(("컴공")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
@@ -421,50 +446,38 @@ public class ChatRoomActivity extends AppCompatActivity {
                     if(listView.getItemAtPosition(j).toString().contains(("야구")) && listView.getItemAtPosition(j).toString().contains(("화공")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
-            else if(adapterView.getSelectedItem().equals("야구") && adapterView.getSelectedItem().equals("기계") )
+            else if(spinner1.getSelectedItem().equals("야구") && spinner2.getSelectedItem().equals("기계") )
             {
                 for(int j=0; j<listView.getCount(); j++)
                 {
                     if(listView.getItemAtPosition(j).toString().contains(("야구")) && listView.getItemAtPosition(j).toString().contains(("기계")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
-            else if(adapterView.getSelectedItem().equals("야구") && adapterView.getSelectedItem().equals("체육") )
+            else if(spinner1.getSelectedItem().equals("야구") && spinner2.getSelectedItem().equals("체육") )
             {
                 for(int j=0; j<listView.getCount(); j++)
                 {
                     if(listView.getItemAtPosition(j).toString().contains(("야구")) && listView.getItemAtPosition(j).toString().contains(("체육")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
@@ -475,14 +488,10 @@ public class ChatRoomActivity extends AppCompatActivity {
                     if(listView.getItemAtPosition(j).toString().contains(("배구")) && listView.getItemAtPosition(j).toString().contains(("컴공")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
@@ -493,50 +502,38 @@ public class ChatRoomActivity extends AppCompatActivity {
                     if(listView.getItemAtPosition(j).toString().contains(("배구")) && listView.getItemAtPosition(j).toString().contains(("화공")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
-            else if(adapterView.getSelectedItem().equals("배구") && adapterView.getSelectedItem().equals("기계") )
+            else if(spinner1.getSelectedItem().equals("배구") && spinner2.getSelectedItem().equals("기계") )
             {
                 for(int j=0; j<listView.getCount(); j++)
                 {
                     if(listView.getItemAtPosition(j).toString().contains(("배구")) && listView.getItemAtPosition(j).toString().contains(("기계")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
-            else if(adapterView.getSelectedItem().equals("배구") && adapterView.getSelectedItem().equals("체육") )
+            else if(spinner1.getSelectedItem().equals("배구") && spinner2.getSelectedItem().equals("체육") )
             {
                 for(int j=0; j<listView.getCount(); j++)
                 {
                     if(listView.getItemAtPosition(j).toString().contains(("배구")) && listView.getItemAtPosition(j).toString().contains(("체육")))
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.CYAN);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                     else
                     {
                         listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                        adapter1.notifyDataSetChanged();
-                        adapter2.notifyDataSetChanged();
                     }
                 }
             }
@@ -571,6 +568,9 @@ public class ChatRoomActivity extends AppCompatActivity {
         intent = new Intent(this,ChatRoomBgmService.class);
         stopService(intent);
         super.onStop();
+
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 
     @Override
@@ -583,6 +583,9 @@ public class ChatRoomActivity extends AppCompatActivity {
         intent = new Intent(this,ChatRoomBgmService.class);
         startService(intent);
         super.onStart();
+
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
