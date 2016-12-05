@@ -20,7 +20,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnChangeEmail, btnChangeUserName, btnChangePassword, btnSendResetEmail, btnRemoveUser,
-            btnReturnChatRoom,changeEmail, changeUserName, changePassword, sendEmail, remove, signOut;
+            btnReturnChatRoom,btnGoSquareRoom,changeEmail, changeUserName, changePassword, sendEmail, remove, signOut;
 
     private EditText oldEmail, newEmail, password, newPassword, userName;
     private ProgressBar progressBar;
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         btnSendResetEmail = (Button) findViewById(R.id.sending_pass_reset_button);
         btnRemoveUser = (Button) findViewById(R.id.remove_user_button);
         btnReturnChatRoom = (Button) findViewById(R.id.return_chatroom_button);
+        btnGoSquareRoom = (Button) findViewById(R.id.go_squareroom_button);
         changeEmail = (Button) findViewById(R.id.changeEmail);
         changeUserName = (Button) findViewById(R.id.changeUserName);
         changePassword = (Button) findViewById(R.id.changePass);
@@ -296,6 +297,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(MainActivity.this,ChatRoomActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        btnGoSquareRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                Intent intent = new Intent(MainActivity.this,SquareActivity.class);
                 startActivity(intent);
                 finish();
             }
