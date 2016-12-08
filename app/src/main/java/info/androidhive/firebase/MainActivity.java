@@ -1,11 +1,15 @@
 package info.androidhive.firebase;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -26,17 +30,20 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+    private WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
-        setSupportActionBar(toolbar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#676767")));
 
-        //get firebase auth instance
+        mWebView = (WebView) findViewById(R.id.webview);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.setWebViewClient(new MyWebViewClient());
+
         auth = FirebaseAuth.getInstance();
 
         //get current user
@@ -108,27 +115,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        changeEmail.setOnClickListener(new View.OnClickListener() {
+        changeEmail.setOnClickListener(new View.OnClickListener() { //change email 버튼 클릭
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 if (user != null && !newEmail.getText().toString().trim().equals("")) {
-                    user.updateEmail(newEmail.getText().toString().trim())
+                    user.updateEmail(newEmail.getText().toString().trim())  //다시 입력한 email로 update
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(MainActivity.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(MainActivity.this, "이메일이 변경되었습니다.", Toast.LENGTH_LONG).show();
                                         signOut();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
-                                        Toast.makeText(MainActivity.this, "Failed to update email!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(MainActivity.this, "변경에 실패했습니다.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
-                } else if (newEmail.getText().toString().trim().equals("")) {
-                    newEmail.setError("Enter email");
+                } else if (newEmail.getText().toString().trim().equals("")) {   //아무것도 입력하지 않았을 때
+                    newEmail.setError("이메일을 입력하세요.");
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -150,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        changeUserName.setOnClickListener(new View.OnClickListener() {
+        changeUserName.setOnClickListener(new View.OnClickListener() {  //change user name 버튼 클릭
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
@@ -159,22 +166,22 @@ public class MainActivity extends AppCompatActivity {
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName(name)
                             .build();
-                    user.updateProfile(profileUpdates)
+                    user.updateProfile(profileUpdates)  //user의 profile을 update한다.
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(MainActivity.this, "User profile updated",
+                                        Toast.makeText(MainActivity.this, "이름이 변경되었습니다.",
                                                 Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
-                                        Toast.makeText(MainActivity.this, "Failed to update profile!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(MainActivity.this, "변경에 실패했습니다.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
                 } else if (userName.getText().toString().trim().equals("")) {
-                    userName.setError("Enter userName");
+                    userName.setError("이름을 입력하세요.");
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -196,13 +203,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        changePassword.setOnClickListener(new View.OnClickListener() {
+        changePassword.setOnClickListener(new View.OnClickListener() {  //change password 버튼 클릭
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 if (user != null && !newPassword.getText().toString().trim().equals("")) {
                     if (newPassword.getText().toString().trim().length() < 6) {
-                        newPassword.setError("Password too short, enter minimum 6 characters");
+                        newPassword.setError("비밀번호는 6자리 이상으로 입력하세요.");
                         progressBar.setVisibility(View.GONE);
                     } else {
                         user.updatePassword(newPassword.getText().toString().trim())
@@ -210,18 +217,18 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(MainActivity.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MainActivity.this, "비밀번호가 변경되었습니다.", Toast.LENGTH_SHORT).show();
                                             signOut();
                                             progressBar.setVisibility(View.GONE);
                                         } else {
-                                            Toast.makeText(MainActivity.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MainActivity.this, "변경에 실패했습니다.", Toast.LENGTH_SHORT).show();
                                             progressBar.setVisibility(View.GONE);
                                         }
                                     }
                                 });
                     }
                 } else if (newPassword.getText().toString().trim().equals("")) {
-                    newPassword.setError("Enter password");
+                    newPassword.setError("비밀번호를 입력하세요.");
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -253,16 +260,16 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(MainActivity.this, "Reset password email is sent!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, "이메일로 전송되었습니다!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
-                                        Toast.makeText(MainActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, "변경에 실패했습니다.", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
                 } else {
-                    oldEmail.setError("Enter email");
+                    oldEmail.setError("이메일을 입력하세요.");
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -278,12 +285,12 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(MainActivity.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, "계정이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(MainActivity.this, SignupActivity.class));
                                         finish();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
-                                        Toast.makeText(MainActivity.this, "Failed to delete your account!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, "삭제를 실패했습니다.", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
@@ -321,6 +328,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void pressButtonToSearch(View v) //웹 연동 버튼
+    {
+        mWebView.loadUrl("http://naver.com");   //원하는 홈페이지 주소를 입력한다.
+    }
+
+    private class MyWebViewClient extends WebViewClient
+    {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView v, String url)
+        {
+            v.loadUrl(url);
+            //새 Activity창이 열리면서 웹 페이지가 나오도록 한다.
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+            return true;
+        }
+    }
+
     //sign out method
     public void signOut() {
         auth.signOut();
@@ -349,5 +374,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        Intent intent = new Intent(this,ChatRoomActivity.class);
+        startActivity(intent);
     }
 }

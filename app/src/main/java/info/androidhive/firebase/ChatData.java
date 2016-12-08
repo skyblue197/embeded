@@ -1,17 +1,14 @@
 package info.androidhive.firebase;
 
 
-public class ChatData
+public class ChatData   //채팅방에서 이용되는 메시지 내용, 사용자 이름, 시간 기록등을 set/get하기 위한 클래스
 {
     private String userName;
     private String message;
     private String filepath;
     private String time;
 
-
     public ChatData() { }
-
-
 
     public ChatData(String userName, String message, String time)
     {
@@ -25,37 +22,15 @@ public class ChatData
         this.filepath = filepath;
     }
 
-    public void setFilepath(String filepath)
-    {
-        this.filepath = filepath;
-    }
-
-    public String getFilepath()
-    {
-        return filepath;
-    }
-
     public String getUserName()
     {
         return userName;
-    }
-
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
     }
 
     public String getMessage()
     {
         return message;
     }
-
-    public void setMessage(String message)
-    {
-        this.message = message;
-    }
-
-    public void setTime(String time) {this.time = time;}
 
     public String getTime()
     {

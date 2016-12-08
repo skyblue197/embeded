@@ -2,7 +2,7 @@ package info.androidhive.firebase;
 
 public class UserData
 {
-    private String userName;
+    private String userName;    // 사용자 이름을 set/get하기 위한 클래스
 
     public UserData()
     {

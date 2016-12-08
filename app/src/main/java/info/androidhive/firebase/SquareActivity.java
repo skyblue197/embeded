@@ -1,16 +1,17 @@
 package info.androidhive.firebase;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 
 import info.androidhive.firebase.app.AppConfig;
 
-public class SquareActivity extends Activity {
+public class SquareActivity extends AppCompatActivity {
     private EditText editTextAdd;
     private int previousBuf=0;
     private int readOrWrite=0;
@@ -48,6 +49,9 @@ public class SquareActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_square);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#676767")));
+
         button1 = (Button)findViewById(R.id.readOrWrite);
         list = (ListView)findViewById(R.id.listView);
         randomNumber = (int)(Math.random() * 1000 + 1);
@@ -95,7 +99,6 @@ public class SquareActivity extends Activity {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-                Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -246,20 +249,20 @@ public class SquareActivity extends Activity {
             g.execute(url);
         }
     }
-
-    public void pressBackButton(View view)
-    {
-        Intent intent = new Intent(SquareActivity.this,ChatRoomActivity.class);
-        startActivity(intent);
-        this.chatReceiveThread.interrupt();
-        finish();
-    }
     
     public void readOrWrite(View view){
         if(readOrWrite==0)
             readOrWrite = 1;
         else
             readOrWrite = 0;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
 }
 

@@ -12,7 +12,7 @@ public class ChatRoomBgmService extends Service {
     }
 
     public int onStartCommand(Intent intent,int flags,int startId){
-        mp = MediaPlayer.create(this,R.raw.chatroombgm);
+        mp = MediaPlayer.create(this,R.raw.waitroombgm);
         mp.setLooping(true);
         mp.start();
         return 0;
