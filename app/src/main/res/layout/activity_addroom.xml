@@ -1,61 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg4">
 
     <EditText
-        android:hint="input room name"
+        android:hint="방 제목을 입력하세요."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/roomeditText" />
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="114dp">
-
-
-    <Spinner
-        android:id="@+id/MySpinner1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/contents_array"/>
-
-    <Spinner
-        android:id="@+id/MySpinner2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/department_array"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <Spinner
-        android:id="@+id/MySpinner3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/time_array"/>
+            android:id="@+id/MySpinner1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/contents_array"/>
 
-        <Button
-        android:id="@+id/calenderButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="pressCalenderButton"
-        android:text="calender"/>
+        <Spinner
+            android:id="@+id/MySpinner2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/department_array"/>
+
     </LinearLayout>
 
-    <TextView
+    <TimePicker
+        android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"/>
-    <CalendarView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/calendarView2"
-        android:layout_weight="1" />
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:headerBackground="#676767"
+        android:id="@+id/timePicker" />
 
-    <Button
-        android:id="@+id/makeButton"
-        android:text="make"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="pressmakeButton"/>
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <CalendarView
+                android:layout_gravity="top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/calendarView2"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/makeButton"
+                android:text="확인"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="pressmakeButton"/>
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </LinearLayout>

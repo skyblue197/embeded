@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@drawable/login"
     tools:context="info.androidhive.firebase.LoginActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#00c6fe"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
@@ -21,7 +21,7 @@
             android:layout_height="@dimen/logo_w_h"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/icon" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_email"
                 android:inputType="textEmailAddress"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textColorHint="@android:color/white" />
         </android.support.design.widget.TextInputLayout>
 
@@ -49,7 +49,7 @@
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textColorHint="@android:color/white" />
         </android.support.design.widget.TextInputLayout>
 
@@ -72,9 +72,7 @@
             android:background="@null"
             android:text="@string/btn_forgot_password"
             android:textAllCaps="false"
-            android:textColor="#555555" />
-
-        <!-- Link to Login Screen -->
+            android:textColor="#5a60e7" />
 
         <Button
             android:id="@+id/btn_signup"

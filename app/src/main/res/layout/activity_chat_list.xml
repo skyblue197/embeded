@@ -6,12 +6,12 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:background="#ebe5cb"
+        android:background="@drawable/bg1"
         android:layout_height="460dp">
     </ListView>
 
     <Button
-        android:text="back"
+        android:text="돌아가기"
         android:onClick="pressBackButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

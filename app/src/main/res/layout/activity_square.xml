@@ -8,31 +8,39 @@
     android:orientation="vertical"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".SquareActivity">
+    tools:context=".SquareActivity"
+    android:background="@drawable/chatroom">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/address" />
-
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Insert"
-        android:onClick="insert"
-        android:id="@+id/button" />
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Read Or Write"
-        android:onClick="readOrWrite"
-        android:id="@+id/readOrWrite" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address"
+            android:hint="insert message"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/result" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전송"
+            android:onClick="insert"
+            android:background="#676767"
+            android:textColor="#ffffff"
+            android:id="@+id/button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="일시정지"
+            android:background="#676767"
+            android:textColor="#ffffff"
+            android:onClick="readOrWrite"
+            android:id="@+id/readOrWrite" />
+
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"

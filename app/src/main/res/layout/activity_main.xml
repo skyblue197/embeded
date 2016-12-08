@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#ebe5cb"
+    android:background="@drawable/bg1"
     tools:context=".MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -13,14 +13,6 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="0dp">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryDark"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -92,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:background="#676767"
-            android:text="@string/btn_change"
+            android:text="변경"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -103,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:background="#676767"
-            android:text="@string/btn_change"
+            android:text="변경"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -114,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:background="#676767"
-            android:text="@string/btn_change"
+            android:text="변경"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -125,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:background="#676767"
-            android:text="@string/btn_send"
+            android:text="전송"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -142,7 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:background="#676767"
-            android:text="@string/btn_remove"
+            android:text="삭제"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -151,7 +143,7 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/change_userName"
+            android:text="닉네임 변경"
             android:textStyle="bold" />
 
         <Button
@@ -160,7 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="@string/change_email"
+            android:text="이메일 변경"
             android:textStyle="bold" />
 
         <Button
@@ -169,7 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="@string/change_password"
+            android:text="비밀번호 변경"
             android:textStyle="bold" />
 
         <Button
@@ -178,7 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="@string/send_password_reset_email"
+            android:text="이메일로 비밀번호 전송"
             android:textStyle="bold" />
 
         <Button
@@ -187,7 +179,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="@string/remove_user"
+            android:text="계정 삭제"
             android:textStyle="bold" />
 
         <Button
@@ -196,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="@string/return_chatroom"
+            android:text="채팅방으로 돌아가기"
             android:textStyle="bold" />
 
         <Button
@@ -205,7 +197,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="go to squreroom"
+            android:text="전체 채팅"
             android:textStyle="bold" />
 
         <Button
@@ -213,11 +205,26 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="8dp"
             android:background="#676767"
-            android:text="@string/btn_sign_out"
+            android:text="로그아웃"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/webview" />
+
+        <Button
+            android:layout_marginTop="8dp"
+            android:text="NAVER"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button1"
+            android:background="#0BC904"
+            android:textColor="#FFFFFF"
+            android:onClick="pressButtonToSearch"/>
 
     </LinearLayout>
 
