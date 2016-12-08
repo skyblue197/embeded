@@ -308,7 +308,6 @@ public class ChatRoomActivity extends AppCompatActivity {
         roomName = roomeditText.getText().toString();
         cspinner = String.valueOf(Contentspinner.getSelectedItem());
         mspinner = String.valueOf(Majorspinner.getSelectedItem());
-        tspinner = String.valueOf(Timespinner.getSelectedItem());
         String username = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         if (TextUtils.isEmpty(roomName))
